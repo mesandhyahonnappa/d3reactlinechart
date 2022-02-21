@@ -1,0 +1,54 @@
+.line-chart-range-context,
+.chart-svg {
+  background-color: #373737;
+  color: #fff;
+}
+
+.tooltip {
+  text-align: center;
+  border: 1px solid #06b6d4;
+  border-radius: 3px;
+  position: absolute;
+  padding: 0px 4px;
+  height: 30px;
+  background-color: #06b6d4;
+  display: none;
+}
+
+.tooltip-x,
+.tooltip-y {
+  font-size: 12px;
+  line-height: 30px;
+}
+
+.x-axis-grid {
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+.x-axis-grid .tick line,
+.y-axis-grid .tick line {
+  stroke: #ccc;
+  opacity: 0.6;
+}
+
+.chart-path,
+.chart-range-context-path {
+  stroke: steelblue;
+  stroke-width: 1;
+}
+
+.x-axis-title,
+.y-axis-title {
+  fill: #fff;
+  font-size: 18px;
+}
+
+.annotation-text {
+  font-size: 12px;
+  text-anchor: start;
+}
+
+.annotation-label {
+  font-size: 10px;
+}
