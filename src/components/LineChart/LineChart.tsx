@@ -148,7 +148,6 @@ const LineChart: React.FC<LineChartProps> = ({
       (rangeEnabled ? DEFAULT_SIZE.rangeContextHeight : 0) -
       (rangeEnabled ? 2 * MARGIN.TOP : MARGIN.TOP) -
       (rangeEnabled ? 2 * MARGIN.BOTTOM : MARGIN.BOTTOM);
-    console.log('height', height);
     setSize({
       width,
       chartHeight: height,
@@ -496,12 +495,24 @@ const LineChart: React.FC<LineChartProps> = ({
       idleTimeout = setTimeout(idled, 360);
       return idleTimeout;
     } else {
-      prevZoomExtent.current = zoomExtent;
+      console.log('zoomExtent', zoomExtent);
+      const xScaleDomain = [
+        xScale.current.invert((zoomExtent as [number, number])[0]),
+        xScale.current.invert((zoomExtent as [number, number])[1])
+      ];
+      const rangeExtent = [
+        xScaleOnContextRange.current(xScaleDomain[0]),
+        xScaleOnContextRange.current(xScaleDomain[1])
+      ];
+      console.log('XScale Domain', xScaleDomain);
+      console.log('XScaleRange Extent', rangeExtent);
 
       xScale.current?.domain([
         xScale.current.invert((zoomExtent as [number, number])[0]),
         xScale.current.invert((zoomExtent as [number, number])[1])
       ]);
+
+      prevZoomExtent.current = zoomExtent;
       if (size) {
         showGridLines &&
           chartRef.current &&
@@ -518,10 +529,11 @@ const LineChart: React.FC<LineChartProps> = ({
       select(chartRef.current)
         .select(`.${CLASSES.BRUSH}`)
         .call(brush.current.move, null);
+
       rangeEnabled &&
         select(chartRef.current)
           .select(`.${CLASSES.BRUSH_RANGE_CONTEXT}`)
-          .call(brushContextRange.current.move, zoomExtent);
+          .call(brushContextRange.current.move, rangeExtent);
     }
 
     select(chartRef.current)
@@ -557,7 +569,6 @@ const LineChart: React.FC<LineChartProps> = ({
       zoomTooltipSurface.current
         .on('touchmouse mousemove', function (event: any) {
           const mousePos = pointer(event);
-          console.log(mousePos);
           const xDataValue = xScale.current.invert(mousePos[0]);
           const bisectorFunction = bisector((d: Point) => d.x).center;
 
